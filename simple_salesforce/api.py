@@ -181,7 +181,7 @@ class Salesforce(object):
 
         return SFType(
             name, self.session_id, self.sf_instance, self.sf_version,
-            self.proxies)
+            self.proxies, self.request)
 
     # User utlity methods
     def set_password(self, user, password):
@@ -432,7 +432,7 @@ class SFType(object):
     # pylint: disable=too-many-arguments
     def __init__(
             self, object_name, session_id, sf_instance, sf_version='27.0',
-            proxies=None):
+            proxies=None, session=None):
         """Initialize the instance with the given parameters.
 
         Arguments:
@@ -446,7 +446,7 @@ class SFType(object):
         """
         self.session_id = session_id
         self.name = object_name
-        self.request = requests.Session()
+        self.request = session or requests.Session()
         self.request.proxies = proxies
 
         self.base_url = (
